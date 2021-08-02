@@ -58,37 +58,37 @@ Add the following to configuration.yaml under sensor:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Activity }}
           unit_of_measurement: 'Mbps'
-          friendly_name_template: Main Bedroom AP Activity      
+          friendly_name_template: Unifi AP Activity      
       unifi_ap_ram:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.RAM }}
           unit_of_measurement: '%'
-          friendly_name_template: Main Bedroom AP RAM    
+          friendly_name_template: Unifi AP RAM    
       unifi_ap_cpu:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.CPU }}
           unit_of_measurement: '%'
-          friendly_name_template: Main Bedroom AP CPU
+          friendly_name_template: Unifi AP CPU
       unifi_ap_score:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Score }}
-          friendly_name_template: Main Bedroom AP SCORE
+          friendly_name_template: Unifi AP SCORE
       unifi_ap2_score:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Score_wifi0 }}
-          friendly_name_template: Main Bedroom AP 2.4gHz SCORE
+          friendly_name_template: Unifi AP 2.4gHz SCORE
       unifi_ap5_score:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Score_wifi1 }}
-          friendly_name_template: Main Bedroom AP 5gHz SCORE
+          friendly_name_template: Unifi AP 5gHz SCORE
       unifi_ap_wifi_devices:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Clients_wifi0 }}
-          friendly_name_template: Main Bedroom AP 2.4gHz Clients
+          friendly_name_template: Unifi AP 2.4gHz Clients
       unifi_ap5ghz_wifi_devices:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Clients_wifi1 }}
-          friendly_name_template: Main Bedroom AP 5gHz Clients
+          friendly_name_template: Unifi AP 5gHz Clients
 ```
 
 And create a manual card with the following:
