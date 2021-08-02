@@ -13,7 +13,70 @@ Will give you a card as below:
 
 ![image](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/unif_ap_info.png)
 
-to create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
+To create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
+
+Add the following to configuration.yaml under sensor:
+
+```
+ - platform: command_line
+    command: 'python3 /config/scripts/unifi_ap.py'
+    command_timeout: 60
+    name: unifi_ap
+    value_template: '{{ value_json.Clients }}'
+    unit_of_measurement: Clients
+    scan_interval: 120
+    json_attributes:
+        - Guests
+        - Clients_wifi0
+        - Clients_wifi1
+        - Score  
+        - CPU
+        - RAM
+        - Uptime
+        - Score_wifi0
+        - Score_wifi1
+        - Activity
+        - Update
+  - platform: template
+    sensors:  
+      unifi_ap_activity:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Activity }}
+          unit_of_measurement: 'Mbps'
+          friendly_name_template: Main Bedroom AP Activity      
+      unifi_ap_ram:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.RAM }}
+          unit_of_measurement: '%'
+          friendly_name_template: Main Bedroom AP RAM    
+      unifi_ap_cpu:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.CPU }}
+          unit_of_measurement: '%'
+          friendly_name_template: Main Bedroom AP CPU
+      unifi_ap_score:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Score }}
+          friendly_name_template: Main Bedroom AP SCORE
+      unifi_ap2_score:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Score_wifi0 }}
+          friendly_name_template: Main Bedroom AP 2.4gHz SCORE
+      unifi_ap5_score:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Score_wifi1 }}
+          friendly_name_template: Main Bedroom AP 5gHz SCORE
+      unifi_ap_wifi_devices:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Clients_wifi0 }}
+          friendly_name_template: Main Bedroom AP 2.4gHz Clients
+      unifi_ap5ghz_wifi_devices:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Clients_wifi1 }}
+          friendly_name_template: Main Bedroom AP 5gHz Clients
+```
+
+And create a manual card with the following:
 
 ```
 type: entities
