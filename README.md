@@ -12,8 +12,7 @@ Made to work with newer UnifiOS
 The following issues still needs to fixed:
 
 ```
-Reporting all clients on network and total clients on 2.4ghz adn 5ghz
-Not able to get it to show guest connected
+Total of all client are shown per on 2.4ghz adn 5ghz
 ```
 
 Will give you a card as below:
@@ -54,6 +53,10 @@ Add the following to configuration.yaml under sensor:
         - Update
   - platform: template
     sensors:  
+      unifi_ap_guests:
+          value_template: >
+              {{ states.sensor.unifi_ap.attributes.Guests }}
+          friendly_name_template: Unifi AP Guests    
       unifi_ap_activity:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Activity }}
@@ -122,14 +125,14 @@ entities:
       entity: sensor.unifi_ap
       name: ' '
     entities:
-      - entity: sensor.home_wifi_devices
+      - entity: sensor.unifi_ap_wifi_devices
         name: 2.4GhZ
         unit: ' '
-      - entity: sensor.home5ghz_wifi_devices
+      - entity: sensor.unifi_ap5ghz_wifi_devices
         name: 5GhZ
         unit: ' '
-      - entity: sensor.homenot_clients
-        name: NoT
+      - entity: sensor.unifi_ap_guests
+        name: Guests
         unit: ' '
   - type: 'custom:multiple-entity-row'
     entity: sensor.unifi_ap_score
