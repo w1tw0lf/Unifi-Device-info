@@ -6,3 +6,8 @@ To get started download, you must have
 https://github.com/custom-components/sensor.unifigateway
 ```
 install and working
+
+The code above can be used with standalone as with below.
+```
+hhttps://github.com/finish06/pyunifi
+```
