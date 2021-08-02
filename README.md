@@ -100,6 +100,14 @@ Add the following to configuration.yaml under sensor:
           value_template: >
               {{ states.sensor.unifi_ap.attributes.Clients_wifi1 }}
           friendly_name_template: Unifi AP 5gHz Clients
+      unifi_ap_update:
+          value_template: >
+              {% if is_state_attr('sensor.unifi_ap', 'Update' , false) %}
+                No
+              {% else %}
+                Available
+              {% endif %}
+          friendly_name_template: Unifi AP Updates          
 ```
 
 And create a manual card with the following:
@@ -194,8 +202,7 @@ entities:
       name: ' '
       unit: ' '
     entities:
-      - entity: sensor.unifi_ap
-        attribute: Update
+      - entity: sensor.unifi_ap_update
         name: New Update
   - type: 'custom:mini-graph-card'
     entities:
