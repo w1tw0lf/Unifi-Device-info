@@ -1,10 +1,121 @@
 # Unifi AP Device info
 Ubiquiti AP's to Home Assistant that will give ap info
 
+Thanks to `valvex`, https://community.home-assistant.io/t/monitoring-your-unifi-ap/259703 for giving the base for this.
+
 To get started download, you must have https://github.com/custom-components/sensor.unifigateway install and working
 
 The code above can be used with standalone as with https://github.com/finish06/pyunifi
 
+Made to work with newer UnifiOS
+
 Will give you a card as below:
 
 ![image](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/unif_ap_info.png)
+
+to create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
+
+```
+type: entities
+entities:
+  - type: 'custom:multiple-entity-row'
+    entity: sensor.unifi_ap
+    name: Unifi AP
+    show_entity_picture: true
+    show_state: false
+    secondary_info:
+      attribute: Uptime
+    entities:
+      - entity: sensor.unifi_ap_cpu
+        name: CPU
+      - entity: sensor.unifi_ap_ram
+        name: RAM
+      - icon: 'mdi:restart'
+        tap_action:
+          action: call-service
+          confirmation: true
+          service: shell_command.reboot_ap_ac_lite
+  - type: 'custom:multiple-entity-row'
+    entity: sensor.unifi_ap
+    icon: 'mdi:devices'
+    name: ' '
+    show_state: false
+    secondary_info:
+      entity: sensor.unifi_ap
+      name: ' '
+    entities:
+      - entity: sensor.home_wifi_devices
+        name: 2.4GhZ
+        unit: ' '
+      - entity: sensor.home5ghz_wifi_devices
+        name: 5GhZ
+        unit: ' '
+      - entity: sensor.homenot_clients
+        name: NoT
+        unit: ' '
+  - type: 'custom:multiple-entity-row'
+    entity: sensor.unifi_ap_score
+    name: ' '
+    icon: 'mdi:percent-outline'
+    show_state: false
+    secondary_info:
+      entity: sensor.unifi_ap_score
+      name: ' '
+      unit: '% satisfaction'
+    entities:
+      - entity: sensor.unifi_ap
+        attribute: 2gHz
+        name: 2gHz
+        unit: '%'
+        tap_action:
+          action: none
+      - entity: sensor.unifi_ap
+        attribute: 5gHz
+        name: 5gHz
+        unit: '%'
+        tap_action:
+          action: none
+  - type: 'custom:mini-graph-card'
+    entities:
+      - entity: sensor.unifi_ap_score
+    group: true
+    font_size: 85
+    hours_to_show: 24
+    style: |
+      ha-card {
+        border-radius: 0px;
+        box-shadow: none;
+        } 
+    show:
+      icon: false
+      graph: false
+      name: false
+      state: false
+      extrema: true
+      average: true
+  - type: 'custom:multiple-entity-row'
+    entity: sensor.unifi_ap_activity
+    name: Activity
+    show_state: false
+    icon: 'mdi:arrow-up-down'
+    secondary_info:
+      entity: sensor.unifi_ap_activity
+      name: ' '
+      unit: ' '
+    entities:
+      - entity: sensor.unifi_ap
+        attribute: Update
+        name: New Update
+  - type: 'custom:mini-graph-card'
+    entities:
+      - entity: sensor.unifi_ap_activity
+    group: true
+    hours_to_show: 4
+    line_width: 3
+    points_per_hour: 15
+    show:
+      icon: false
+      name: false
+      state: false
+      labels: true
+```
