@@ -15,6 +15,14 @@ Will give you a card as below:
 
 To create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
 
+Create a folder `scripts` in your `config` folder and copy the `unifi_ap.py` into the folder. Edit with details in the section with your details:
+
+```
+host = 'ip/url'
+username = 'username'
+password = 'password'
+```
+
 Add the following to configuration.yaml under sensor:
 
 ```
