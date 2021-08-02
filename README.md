@@ -1,4 +1,4 @@
-# Unifi-AP-Device-info
+# Unifi AP Device info
 Ubiquiti AP's to Home Assistant that will give ap info
 
 To get started download, you must have 
