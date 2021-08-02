@@ -17,7 +17,7 @@ Total of all client are shown per on 2.4ghz adn 5ghz
 
 Will give you a card as below:
 
-![image](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/unif_ap_info.png)
+![card](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/unif_ap_info.png)
 
 To create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
 
