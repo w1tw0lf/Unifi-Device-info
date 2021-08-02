@@ -96,6 +96,8 @@ Add the following to configuration.yaml under sensor:
 
 And create a manual card with the following:
 
+PS: I don't have a `shell_command.reboot_unifi_ap` as I need to figure this out still
+
 ```
 type: entities
 entities:
@@ -115,7 +117,7 @@ entities:
         tap_action:
           action: call-service
           confirmation: true
-          service: shell_command.reboot_ap_ac_lite
+          service: shell_command.reboot_unifi_ap
   - type: 'custom:multiple-entity-row'
     entity: sensor.unifi_ap
     icon: 'mdi:devices'
