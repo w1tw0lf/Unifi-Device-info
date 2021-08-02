@@ -26,8 +26,8 @@ clients = client.get_clients()
 
 ###########################################
 
-numclients = len(clients)
-#numguests = len(guests)
+numclients = devs['user-wlan-num_sta']
+numguests = devs['guest-wlan-num_sta']
 score = devs['satisfaction']
 update = stat[0]['update_available']
 cpu = devs['system-stats']['cpu']
@@ -58,7 +58,7 @@ wifi1score = devs['radio_table_stats'][1]['satisfaction']
 
 
                                                    
-final = json.dumps({"Clients":numclients,"Clients_wifi0":wifi0clients ,"Clients_wifi1":wifi1clients ,"Score":score,"CPU":str(cpu),"RAM":str(ram),"Uptime":uptime,"Score_wifi0":wifi0score ,"Score_wifi1":wifi1score ,\
+final = json.dumps({"Clients":numclients,"Guests":numguests,"Clients_wifi0":wifi0clients ,"Clients_wifi1":wifi1clients ,"Score":score,"CPU":str(cpu),"RAM":str(ram),"Uptime":uptime,"Score_wifi0":wifi0score ,"Score_wifi1":wifi1score ,\
                 "Activity":str(activity)+' Mbps',"Update":update})
 
 print (final)
