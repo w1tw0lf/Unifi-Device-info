@@ -9,6 +9,13 @@ The code above can be used with standalone as with https://github.com/finish06/p
 
 Made to work with newer UnifiOS
 
+The following issues still needs to fixed:
+
+```
+Reporting all clients on network and total clients on 2.4ghz adn 5ghz
+Not able to get it to show guest connected
+```
+
 Will give you a card as below:
 
 ![image](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/unif_ap_info.png)
