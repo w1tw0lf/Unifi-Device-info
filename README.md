@@ -78,11 +78,19 @@ Add the following to configuration.yaml under sensor:
           friendly_name_template: Unifi AP SCORE
       unifi_ap2_score:
           value_template: >
-              {{ states.sensor.unifi_ap.attributes.Score_wifi0 }}
+              {% if is_state_attr('sensor.unifi_ap', 'Score_wifi0' , -1) %}
+                N/A
+              {% else %}
+                {{ states.sensor.unifi_ap.attributes.Score_wifi0 }}.
+              {% endif %}
           friendly_name_template: Unifi AP 2.4gHz SCORE
       unifi_ap5_score:
           value_template: >
-              {{ states.sensor.unifi_ap.attributes.Score_wifi1 }}
+              {% if is_state_attr('sensor.unifi_ap_', 'Score_wifi1' , -1) %}
+                N/A
+              {% else %}
+                {{ states.sensor.closet_ap.attributes.Score_wifi1 }}.
+              {% endif %}
           friendly_name_template: Unifi AP 5gHz SCORE
       unifi_ap_wifi_devices:
           value_template: >
