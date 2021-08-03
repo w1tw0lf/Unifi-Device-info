@@ -112,7 +112,12 @@ Add the following to configuration.yaml under sensor:
 
 And create a manual card with the following:
 
-PS: I don't have a `shell_command.reboot_unifi_ap` as I need to figure this out still
+`shell_command.reboot_unifi_ap` can be created via https://github.com/stevejenkins/unifi-linux-utils/blob/master/uap_reboot.sh, change `uap_list` to only the ip of the AP and the adding to configuration.yaml under shell_command:
+```
+shell_command:
+  reboot_unifi_ap: bash /config/shell/unifi_ap_reboot.sh
+```
+Duplicated as needed per ap and change `unifi_ap` to either ap name or `unifi_ap`
 
 ```
 type: entities
