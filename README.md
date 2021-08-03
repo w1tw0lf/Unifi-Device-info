@@ -119,7 +119,7 @@ Then adding to configuration.yaml under shell_command:
 shell_command:
   reboot_unifi_ap: bash /config/shell/unifi_ap_reboot.sh
 ```
-PS: command works via host, but not in home assistant. Will have to figure this out.
+PS: command works via host, but not in home assistant. Will have to figure this out. Needs `sshpass`
 
 
 ```
