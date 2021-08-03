@@ -12,7 +12,7 @@ Made to work with newer UnifiOS
 The following issues still needs to fixed:
 
 ```
-Total of all client are shown per on 2.4ghz adn 5ghz
+Total of all client are shown for 2.4ghz adn 5ghz and not per ap.
 ```
 
 Will give you a card as below:
