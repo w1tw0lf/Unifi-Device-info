@@ -13,7 +13,16 @@ site_id = 'default'
 port = '443'
 verify_ssl = True
 target_mac = '' ## the mac address of your AP device
+################# Wifi Radio's ####################
+# for wifi 6 use:
+# ra0 for 2.4ghz clients
+# rai0 for 5ghz clients
+# for wifi use:
+# wifi0 for 2.4ghz clients
+# wifi1 for 5ghz clients
 
+clients24 = 'wifi0'
+clients5 = 'wifi1'
 
 ################# endpoints ####################
 
@@ -43,8 +52,8 @@ uptime = str(days)+'d '+str(hours)+'h '+str(minutes)+'m'
 ### Wifi Clients and score ###
 # Remember to adjust according to the number of your ssids #
 
-wifi0clients = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape('wifi0'), str(clients)))
-wifi1clients = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape('wifi1'), str(clients)))
+wifi0clients = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape(clients24), str(clients)))
+wifi1clients = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape(clients5), str(clients)))
 wifi0score = devs['radio_table_stats'][0]['satisfaction']
 wifi1score = devs['radio_table_stats'][1]['satisfaction']
 
