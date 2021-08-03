@@ -1,5 +1,5 @@
 # Unifi AP Device info
-Ubiquiti AP's to Home Assistant that will give ap info
+Provide Ubiquiti AP's info via api to Home Assistant that will give ap sensors
 
 Thanks to `valvex`, https://community.home-assistant.io/t/monitoring-your-unifi-ap/259703 for giving the base for this.
 
