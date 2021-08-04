@@ -11,7 +11,7 @@ Made to work with newer UnifiOS
 
 Will give you a card as below:
 
-![card](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/card.png)
+![card](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/hassio_card.png)
 
 To create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
 
