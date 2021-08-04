@@ -9,12 +9,6 @@ The code above can be used with standalone as with https://github.com/finish06/p
 
 Made to work with newer UnifiOS
 
-The following issues still needs to fixed:
-
-```
-Total of all client are shown for 2.4ghz adn 5ghz and not per ap.
-```
-
 Will give you a card as below:
 
 ![card](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/card.png)
