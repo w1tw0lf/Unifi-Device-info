@@ -9,6 +9,10 @@ host = 'ip/url'
 username = 'username'
 password = 'password'
 version = 'UDMP-unifiOS'
+#### version ####
+## the base version of the controller API [v4|v5|unifiOS|UDMP-unifiOS] ##
+## this would be for the version of the controller you are running ##
+#################
 site_id = 'default'
 port = '443'
 verify_ssl = True
