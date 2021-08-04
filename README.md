@@ -18,9 +18,13 @@ To create the card, you will need https://github.com/benct/lovelace-multiple-ent
 Create a folder `scripts` in your `config` folder and copy the `unifi_ap.py` into the folder. Edit with details in the section with your details:
 
 ```
-host = 'ip/url'
-username = 'username'
-password = 'password'
+ - `host`       -- the address of the controller host; IP or name
+ - `username`   -- the username to log in with
+ - `password`	-- the password to log in with
+ - `port`       -- the port of the controller host
+ - `version`	-- the base version of the controller API [v4|v5|unifiOS|UDMP-unifiOS]
+ - `site_id`	-- the site ID to access
+ - `ssl_verify`	-- Verify the controllers SSL certificate, default=True, can also be False or "path/to/custom_cert.pem"
 ```
 
 Add the following to configuration.yaml under sensor:
