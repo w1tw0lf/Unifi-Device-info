@@ -52,7 +52,7 @@ To create the card, you will need https://github.com/benct/lovelace-multiple-ent
 
 ## Reboot command
 
-`shell_command.reboot_unifi_ap` can be created via https://github.com/stevejenkins/unifi-linux-utils/blob/master/uap_reboot.sh, change `uap_list` to only the ip of the AP.
+`shell_command.reboot_unifi_ap` can be created via https://github.com/stevejenkins/unifi-linux-utils/blob/master/uap_reboot.sh, change `uap_list` to only the ip of the device.
 
 Then adding to configuration.yaml under shell_command:
 ```
