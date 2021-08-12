@@ -31,8 +31,9 @@ type = devs['model']
 usedports = devs['num_sta']
 userports = devs['user-num_sta']
 guestports = devs['guest-num_sta']
+## remove hash below if your switch supports temperature display ##
 #temperature = devs['general_temperature']
-update = stat[0]['update_available']
+update = devs['upgradable']
 activity = round(devs['uplink']['rx_bytes-r']/125000 + devs['uplink']['tx_bytes-r']/125000,1)
 seconds = devs['uptime']
 days = seconds // 86400
