@@ -1,22 +1,24 @@
- - platform: command_line
-    command: 'python3 /config/scripts/unifi_ap.py'
-    command_timeout: 60
-    name: unifi_ap
-    value_template: '{{ value_json.Clients }}'
-    unit_of_measurement: Clients
-    scan_interval: 120
-    json_attributes:
-        - Guests
-        - Clients_wifi0
-        - Clients_wifi1
-        - Score  
-        - CPU
-        - RAM
-        - Uptime
-        - Score_wifi0
-        - Score_wifi1
-        - Activity
-        - Update
+command_line:
+  - sensor:
+     command: 'python3 /config/scripts/unifi_ap.py'
+     command_timeout: 60
+     name: unifi_ap
+     value_template: '{{ value_json.Clients }}'
+     unit_of_measurement: Clients
+     scan_interval: 120
+     json_attributes:
+         - Guests
+         - Clients_wifi0
+         - Clients_wifi1
+         - Score  
+         - CPU
+         - RAM
+         - Uptime
+         - Score_wifi0
+         - Score_wifi1
+         - Activity
+         - Update
+sensor:         
   - platform: template
     sensors:  
       unifi_ap_guests:
