@@ -1,21 +1,23 @@
-  - platform: command_line
-    command: 'python3 /config/scripts/unifi_switch.py'
-    command_timeout: 60
-    name: unifi_switch
-    value_template: '{{ value_json.Ports_used }}'
-    unit_of_measurement: Clients
-    scan_interval: 120
-    json_attributes:
-        - Model
-        - Temp
-        - Activity
-        - CPU
-        - RAM  
-        - Uptime
-        - Ports_used      
-        - Ports_user
-        - Ports_guest
-        - Update
+command_line:
+  - sensor:
+      command: 'python3 /config/scripts/unifi_switch.py'
+      command_timeout: 60
+      name: unifi_switch
+      value_template: '{{ value_json.Ports_used }}'
+      unit_of_measurement: Clients
+      scan_interval: 120
+      json_attributes:
+          - Model
+          - Temp
+          - Activity
+          - CPU
+          - RAM  
+          - Uptime
+          - Ports_used      
+          - Ports_user
+          - Ports_guest
+          - Update
+sensor:          
   - platform: template
     sensors:  
       unifi_switch_temp:
