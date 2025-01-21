@@ -63,13 +63,15 @@ for device in unifi_devices:
 
         # Add additional attributes for switches
         if device_type == 'usw':
+            port_status = {}
+            for index, port in enumerate(devs.get('port_table', []), start=1):
+                port_status[f"port{index}"] = "up" if port.get('up') else "down"
+
             attributes.update({
                 "ports_used": devs.get('num_sta', 0),
                 "ports_user": devs.get('user-num_sta', 0),
                 "ports_guest": devs.get('guest-num_sta', 0),
-                "active_ports": [
-                    "up" if port.get('up') else "down" for port in devs.get('port_table', [])
-                ],
+                "active_ports": port_status,
             })
 
         # Add additional attributes for access points
