@@ -1,7 +1,6 @@
-import json
+from homeassistant.util import json
 from pyunifi.controller import Controller
 from datetime import timedelta
-import paho.mqtt.client as mqtt
 
 #### Fill in your UniFi controller credentials ####
 host = ''
@@ -11,19 +10,6 @@ version = 'UDMP-unifiOS'
 site_id = 'default'
 port = '443'
 verify_ssl = True
-
-#### Fill in your MQTT broker details ####
-mqtt_broker = "mqtt.example.com"
-mqtt_port = 1883
-mqtt_username = "mqtt_user"
-mqtt_password = "mqtt_password"
-mqtt_topic_prefix = "unifi/devices/"
-mqtt_discovery_prefix = "homeassistant"
-
-################# MQTT Setup ####################
-mqtt_client = mqtt.Client()
-mqtt_client.username_pw_set(mqtt_username, mqtt_password)
-mqtt_client.connect(mqtt_broker, mqtt_port, 60)
 
 ################# UniFi Controller ####################
 client = Controller(host, username, password, port, version, site_id=site_id, ssl_verify=verify_ssl)
@@ -71,7 +57,7 @@ for device in unifi_devices:
                 "ports_used": devs.get('num_sta', 0),
                 "ports_user": devs.get('user-num_sta', 0),
                 "ports_guest": devs.get('guest-num_sta', 0),
-                "active_ports": port_status,
+                "active_ports": port_status,  # Use the dynamically generated port status
             })
 
         # Add additional attributes for access points
@@ -86,12 +72,12 @@ for device in unifi_devices:
             })
 
         # MQTT Discovery payload
-        discovery_topic = f"{mqtt_discovery_prefix}/sensor/{mac.replace(':', '')}/config"
+        discovery_topic = f"homeassistant/sensor/{mac.replace(':', '')}/config"
         sensor_payload = {
             "name": name,
-            "state_topic": f"{mqtt_topic_prefix}{name.replace(' ', '_')}/state",
+            "state_topic": f"unifi/devices/{name.replace(' ', '_')}/state",
             "unique_id": mac.replace(':', ''),
-            "json_attributes_topic": f"{mqtt_topic_prefix}{name.replace(' ', '_')}/attributes",
+            "json_attributes_topic": f"unifi/devices/{name.replace(' ', '_')}/attributes",
             "device": {
                 "identifiers": [mac],
                 "name": name,
@@ -101,22 +87,34 @@ for device in unifi_devices:
         }
 
         # Publish MQTT Discovery message
-        mqtt_client.publish(discovery_topic, payload=json.dumps(sensor_payload), retain=True)
+        hass.services.call('mqtt', 'publish', {
+            "topic": discovery_topic,
+            "payload": json.dumps(sensor_payload),
+            "retain": True
+        })
 
         # Publish device state (model as state)
-        state_topic = f"{mqtt_topic_prefix}{name.replace(' ', '_')}/state"
-        mqtt_client.publish(state_topic, payload=model, retain=True)
+        state_topic = f"unifi/devices/{name.replace(' ', '_')}/state"
+        hass.services.call('mqtt', 'publish', {
+            "topic": state_topic,
+            "payload": model,
+            "retain": True
+        })
 
         # Publish device attributes
-        attributes_topic = f"{mqtt_topic_prefix}{name.replace(' ', '_')}/attributes"
-        mqtt_client.publish(attributes_topic, payload=json.dumps(attributes), retain=True)
+        attributes_topic = f"unifi/devices/{name.replace(' ', '_')}/attributes"
+        hass.services.call('mqtt', 'publish', {
+            "topic": attributes_topic,
+            "payload": json.dumps(attributes),
+            "retain": True
+        })
 
         active_devices.append(name)
 
 # Publish device summary
-device_summary_topic = f"{mqtt_topic_prefix}summary"
-mqtt_client.publish(device_summary_topic, payload=json.dumps(active_devices), retain=True)
-
-# Disconnect MQTT client
-mqtt_client.disconnect()
-
+device_summary_topic = "unifi/devices/summary"
+hass.services.call('mqtt', 'publish', {
+    "topic": device_summary_topic,
+    "payload": json.dumps(active_devices),
+    "retain": True
+})
