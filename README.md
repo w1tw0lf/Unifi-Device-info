@@ -3,9 +3,7 @@ Provide Unifi device info via api to Home Assistant that will give ap sensors
 
 Thanks to `valvex`, https://community.home-assistant.io/t/monitoring-your-unifi-ap/259703 for giving the base for this.
 
-To get started download, you must have https://github.com/custom-components/sensor.unifigateway install and working
-
-The code above can be used with standalone as with https://github.com/finish06/pyunifi
+To get started download, you must have https://github.com/AlexxIT/PythonScriptsPro added via HACS
 
 Made to work with newer UnifiOS
 
@@ -16,7 +14,7 @@ Will give you a card as below:
 
 ## Scripts
 
-Create a folder `scripts` in your `config` folder and copy the `unifi_ap.py` and/or `unifi_switch.py` into the folder. Edit with details in the section with your details:
+Create a folder `python_scripts` in your `config` folder and copy the `unifi_mqtt.py`into the folder. Edit with details in the section with your details:
 
 ```
  - `host`       -- the address of the controller host; IP or name
@@ -28,44 +26,20 @@ Create a folder `scripts` in your `config` folder and copy the `unifi_ap.py` and
  - `verify_ssl`	-- Verify the controllers SSL certificate, default=True, can also be False or "path/to/custom_cert.pem"
  - `target_mac` -- the mac address of your AP device
 ```
-## Sensor
+## Automation
 
-**For AP:**
+Create automation:
 
-Copy the content of `configuration_ap.yaml` to 'configuration.yaml' under sensor.
-
-**For Switch:**
-
-Copy the content of `configuration_switch.yaml` to 'configuration.yaml' under sensor.
-
-## Card
-
-To create the card, you will need https://github.com/benct/lovelace-multiple-entity-row and https://github.com/kalkih/mini-graph-card
-
-**For AP:**
-
-`card_ap.yaml` can be copied to a manual card in the frontend to create card as per image above.
-
-**For Switch:**
-
-`card_switch.yaml` can be copied to a manual card in the frontend to create card as per image above.
-
-## Reboot command
-
-`shell_command.reboot_unifi_ap` can be created via https://github.com/stevejenkins/unifi-linux-utils/blob/master/uap_reboot.sh, change `uap_list` to only the ip of the device.
-
-Then adding to configuration.yaml under shell_command:
 ```
-shell_command:
-  reboot_unifi_ap: bash /config/shell/unifi_ap_reboot.sh
+alias: Unifi
+description: ""
+triggers:
+  - trigger: time_pattern
+    seconds: "30"
+conditions: []
+actions:
+  - action: python_script.exec
+    data:
+      file: python_scripts/unifi.py
+mode: single
 ```
-PS: command works via host, but not in home assistant. Will have to figure this out. Needs `sshpass` in home assistant
-
-## When you have more than one ap/switch
-
-Duplicated as needed per ap and change `unifi_ap` to either ap name or `unifi_ap1` an `unifi_ap2`
-
-Duplicated as needed per ap and change `unifi_switch` to either ap name or `unifi_switch1` an `unifi_switch`
-
-**Remember then to update the sensor and card accordingly**
-
