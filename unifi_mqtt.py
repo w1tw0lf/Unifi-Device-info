@@ -1,4 +1,4 @@
-from homeassistant.util import json
+import json
 from pyunifi.controller import Controller
 from datetime import timedelta
 
@@ -82,7 +82,6 @@ for device in unifi_devices:
             "device": {
                 "identifiers": [mac],
                 "name": name,
-                "uptime": uptime,
                 "manufacturer": "UniFi"
             }
         }
