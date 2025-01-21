@@ -68,6 +68,7 @@ for device in unifi_devices:
             attributes.update({
                 "clients": devs.get('user-wlan-num_sta', 0),
                 "guests": devs.get('guest-wlan-num_sta', 0),
+                "score": devs.get('satisfaction', 0),
                 "clients_wifi0": devs.get('radio_table_stats', [{}])[0].get('user-num_sta', 0),
                 "clients_wifi1": devs.get('radio_table_stats', [{}])[1].get('user-num_sta', 0),
                 "score_wifi0": devs.get('radio_table_stats', [{}])[0].get('satisfaction', 0),
