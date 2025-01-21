@@ -23,10 +23,12 @@ for device in unifi_devices:
         devs = client.get_device_stat(target_mac)
 
         name = devs.get('name', 'Unknown')
-        model = devs.get('model', 'Unknown')
         mac = devs.get('mac', 'Unknown')
         device_type = devs.get('type', 'Unknown')
         uptime_seconds = devs.get('uptime', 0)
+
+        # Sanitize the device name to avoid redundancy
+        sanitized_name = name.replace(' ', '_').lower()
 
         # Calculate uptime
         days = uptime_seconds // 86400
@@ -38,7 +40,7 @@ for device in unifi_devices:
         attributes = {
             "type": device_type,
             "Mac Address": mac,
-            "model": model,
+            "model": devs.get('model', 'Unknown'),
             "cpu": devs.get('system-stats', {}).get('cpu', 'N/A'),
             "ram": devs.get('system-stats', {}).get('mem', 'N/A'),
             "activity": round(
@@ -58,7 +60,7 @@ for device in unifi_devices:
                 "ports_used": devs.get('num_sta', 0),
                 "ports_user": devs.get('user-num_sta', 0),
                 "ports_guest": devs.get('guest-num_sta', 0),
-                "active_ports": port_status,  # Use the dynamically generated port status
+                "active_ports": port_status,
             })
 
         # Add additional attributes for access points
@@ -73,12 +75,12 @@ for device in unifi_devices:
             })
 
         # MQTT Discovery payload
-        discovery_topic = f"homeassistant/sensor/{mac.replace(':', '')}/config"
+        discovery_topic = f"homeassistant/sensor/{sanitized_name}/config"  # Use sanitized_name here
         sensor_payload = {
-            "name": name,
-            "state_topic": f"unifi/devices/{name.replace(' ', '_')}/state",
+            "name": name,  # Device name as it is
+            "state_topic": f"unifi/devices/{sanitized_name}/state",  # Use sanitized name in state topic
             "unique_id": mac.replace(':', ''),
-            "json_attributes_topic": f"unifi/devices/{name.replace(' ', '_')}/attributes",
+            "json_attributes_topic": f"unifi/devices/{sanitized_name}/attributes",  # Attributes topic
             "device": {
                 "identifiers": [mac],
                 "name": name,
@@ -94,7 +96,7 @@ for device in unifi_devices:
         })
 
         # Publish device state (uptime as state)
-        state_topic = f"unifi/devices/{name.replace(' ', '_')}/state"
+        state_topic = f"unifi/devices/{sanitized_name}/state"
         hass.services.call('mqtt', 'publish', {
             "topic": state_topic,
             "payload": uptime,
@@ -102,7 +104,7 @@ for device in unifi_devices:
         })
 
         # Publish device attributes
-        attributes_topic = f"unifi/devices/{name.replace(' ', '_')}/attributes"
+        attributes_topic = f"unifi/devices/{sanitized_name}/attributes"
         hass.services.call('mqtt', 'publish', {
             "topic": attributes_topic,
             "payload": json.dumps(attributes),
