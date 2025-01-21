@@ -43,3 +43,5 @@ actions:
       file: python_scripts/unifi.py
 mode: single
 ```
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J014JZ45)
