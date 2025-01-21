@@ -37,7 +37,8 @@ for device in unifi_devices:
         # Base attributes
         attributes = {
             "type": device_type,
-            "uptime": uptime,
+            "Mac Address": mac,
+            "model": model,
             "cpu": devs.get('system-stats', {}).get('cpu', 'N/A'),
             "ram": devs.get('system-stats', {}).get('mem', 'N/A'),
             "activity": round(
@@ -81,7 +82,7 @@ for device in unifi_devices:
             "device": {
                 "identifiers": [mac],
                 "name": name,
-                "model": model,
+                "uptime": uptime,
                 "manufacturer": "UniFi"
             }
         }
@@ -93,11 +94,11 @@ for device in unifi_devices:
             "retain": True
         })
 
-        # Publish device state (model as state)
+        # Publish device state (uptime as state)
         state_topic = f"unifi/devices/{name.replace(' ', '_')}/state"
         hass.services.call('mqtt', 'publish', {
             "topic": state_topic,
-            "payload": model,
+            "payload": uptime,
             "retain": True
         })
 
