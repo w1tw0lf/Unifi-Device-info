@@ -56,12 +56,19 @@ for device in unifi_devices:
             for index, port in enumerate(devs.get('port_table', []), start=1):
                 port_status[f"port{index}"] = "up" if port.get('up') else "down"
 
+            port_poe = {}
+            for index, port in enumerate(devs.get('port_table', []), start=1):
+                poe_enabled = port.get('poe_enable', False)  # Check if 'poe_enable' is True or False in the port dict
+                port_poe[f"port{index}"] = "power" if poe_enabled else "none"
+
             attributes.update({
                 "ports_used": devs.get('num_sta', 0),
                 "ports_user": devs.get('user-num_sta', 0),
                 "ports_guest": devs.get('guest-num_sta', 0),
                 "active_ports": port_status,
+                "poe_ports": port_poe,
             })
+
 
         # Add additional attributes for access points
         elif device_type == 'uap':
