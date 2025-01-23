@@ -39,7 +39,7 @@ for device in unifi_devices:
         # Base attributes
         attributes = {
             "type": device_type,
-            "Mac Address": mac,
+            "mac_address": mac,
             "model": devs.get('model', 'Unknown'),
             "cpu": devs.get('system-stats', {}).get('cpu', 'N/A'),
             "ram": devs.get('system-stats', {}).get('mem', 'N/A'),
@@ -47,7 +47,12 @@ for device in unifi_devices:
                 (devs.get('uplink', {}).get('rx_bytes-r', 0) / 125000) +
                 (devs.get('uplink', {}).get('tx_bytes-r', 0) / 125000), 1
             ),
+            "bytes_rx": devs.get('rx_bytes', 0),
+            "bytes_tx": devs.get('tx_bytes', 0),
             "update": "available" if devs.get('upgradable') else "none",
+            "firmware_version": devs.get('version', 'Unknown'),
+            "ip_address": devs.get('ip', 'Unknown'),
+            "device_name": name, # workaround for issue where friendly name duplicates the name
         }
 
         # Add additional attributes for switches
@@ -61,12 +66,24 @@ for device in unifi_devices:
                 poe_enabled = port.get('poe_enable', False)  # Check if 'poe_enable' is True or False in the port dict
                 port_poe[f"port{index}"] = "power" if poe_enabled else "none"
 
+            port_power = {}
+            for index, port in enumerate(devs.get('port_table', []), start=1):
+                port_power[f"port{index}"] = port.get('poe_power', 0)
+
+            if devs.get('has_temperature'):
+                current_temperature = devs.get('general_temperature', 0)
+            else:
+                current_temperature = 'N/A'
+
             attributes.update({
                 "ports_used": devs.get('num_sta', 0),
                 "ports_user": devs.get('user-num_sta', 0),
                 "ports_guest": devs.get('guest-num_sta', 0),
                 "active_ports": port_status,
                 "poe_ports": port_poe,
+                "poe_power": port_power,
+                "total_used_power": devs.get('total_used_power', 0),
+                "current_temperature": current_temperature,
             })
 
 
