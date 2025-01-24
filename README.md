@@ -24,7 +24,6 @@ Create a folder `python_scripts` in your `config` folder and copy the `unifi_mqt
  - `site_id`	-- the site ID to access
  - `port`       -- the port of the controller host
  - `verify_ssl`	-- Verify the controllers SSL certificate, default=True, can also be False or "path/to/custom_cert.pem"
- - `target_mac` -- the mac address of your AP device
 ```
 ## Automation
 
