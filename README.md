@@ -48,7 +48,7 @@ conditions: []
 actions:
   - action: python_script.exec
     data:
-      file: python_scripts/unifi.py
+      file: python_scripts/unifi_mqtt.py
 mode: single
 ```
 
