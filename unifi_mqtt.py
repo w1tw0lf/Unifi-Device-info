@@ -29,7 +29,7 @@ for device in unifi_devices:
         uptime_seconds = devs.get('uptime', 0)
 
         # Sanitize the device name to avoid redundancy
-        sanitized_name = name.replace(' ', '_').lower()
+        sanitized_name = name.replace(' ', '_').replace('.', '_').lower()
 
         # Calculate uptime
         days = uptime_seconds // 86400
