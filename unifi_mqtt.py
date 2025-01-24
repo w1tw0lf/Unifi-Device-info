@@ -75,7 +75,10 @@ for device in unifi_devices:
                         port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
 
                     if 'poe_power' in portTable.columns:
-                        port_power[f"port{row['port_idx']}"] = row['poe_power']
+                        if (pd.isna(row['poe_power'])):
+                            port_power[f"port{row['port_idx']}"] = 0
+                        else:
+                            port_power[f"port{row['port_idx']}"] = row['poe_power']
 
             if devs.get('has_temperature'):
                 current_temperature = devs.get('general_temperature', 0)
