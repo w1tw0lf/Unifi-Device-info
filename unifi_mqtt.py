@@ -89,14 +89,20 @@ for device in unifi_devices:
 
         # Add additional attributes for access points
         elif device_type == 'uap':
+            radio_table_stats = devs.get('radio_table_stats', [])
+            radio_clients = {}
+            radio_scores = {}
+            for index, radio in enumerate(radio_table_stats):
+                user_num_sta = radio.get('user-num_sta', 0)
+                satisfaction = radio.get('satisfaction', 0)
+                radio_clients[f"clients_wifi{index}"] = user_num_sta
+                radio_scores[f"score_wifi{index}"] = 0 if satisfaction == -1 else satisfaction                      
             attributes.update({
                 "clients": devs.get('user-wlan-num_sta', 0),
                 "guests": devs.get('guest-wlan-num_sta', 0),
-                "score": devs.get('satisfaction', 0),
-                "clients_wifi0": devs.get('radio_table_stats', [{}])[0].get('user-num_sta', 0),
-                "clients_wifi1": devs.get('radio_table_stats', [{}])[1].get('user-num_sta', 0),
-                "score_wifi0": devs.get('radio_table_stats', [{}])[0].get('satisfaction', 0),
-                "score_wifi1": devs.get('radio_table_stats', [{}])[1].get('satisfaction', 0),
+                "score": 0 if devs.get('satisfaction', 0) == -1 else devs.get('satisfaction', 0),
+                **radio_clients, 
+                **radio_scores,                
             })
 
         # MQTT Discovery payload
