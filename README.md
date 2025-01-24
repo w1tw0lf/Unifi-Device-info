@@ -25,6 +25,15 @@ Create a folder `python_scripts` in your `config` folder and copy the `unifi_mqt
  - `port`       -- the port of the controller host
  - `verify_ssl`	-- Verify the controllers SSL certificate, default=True, can also be False or "path/to/custom_cert.pem"
 ```
+
+In the configuration.yaml add
+
+```
+python_script:
+  requirements:
+  - pyunifi
+```
+
 ## Automation
 
 Create automation:
