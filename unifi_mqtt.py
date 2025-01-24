@@ -72,7 +72,7 @@ for device in unifi_devices:
                     port_status[f"port{row['port_idx']}"] = "up" if row['up'] else "down"
 
                     if 'poe_enable' in portTable.columns:
-                        port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
+                        port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] == True else "none"
 
                     if 'poe_power' in portTable.columns:
                         if (pd.isna(row['poe_power'])):
