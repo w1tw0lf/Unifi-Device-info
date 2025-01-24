@@ -69,7 +69,7 @@ for device in unifi_devices:
                 portTable = pd.DataFrame(devs.get('port_table')).sort_values('port_idx')
 
                 for index, row in portTable.iterrows():
-                    port_status[row['port_idx']] = "up" if row['up'] else "down"
+                    port_status[f"port{row['port_idx']}"] = "up" if row['up'] else "down"
 
                     if 'poe_enable' in portTable.columns:
                         port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
