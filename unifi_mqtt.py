@@ -1,4 +1,5 @@
 import json
+import pandas as pd
 from pyunifi.controller import Controller
 from datetime import timedelta
 
@@ -28,7 +29,7 @@ for device in unifi_devices:
         uptime_seconds = devs.get('uptime', 0)
 
         # Sanitize the device name to avoid redundancy
-        sanitized_name = name.replace(' ', '_').lower()
+        sanitized_name = name.replace(' ', '_').replace('.', '_').lower()
 
         # Calculate uptime
         days = uptime_seconds // 86400
@@ -39,6 +40,7 @@ for device in unifi_devices:
         # Base attributes
         attributes = {
             "type": device_type,
+            "status": 'On' if devs.get('state') == 1 else 'Off',
             "mac_address": mac,
             "model": devs.get('model', 'Unknown'),
             "cpu": devs.get('system-stats', {}).get('cpu', 'N/A'),
@@ -58,17 +60,22 @@ for device in unifi_devices:
         # Add additional attributes for switches
         if device_type == 'usw':
             port_status = {}
-            for index, port in enumerate(devs.get('port_table', []), start=1):
-                port_status[f"port{index}"] = "up" if port.get('up') else "down"
-
             port_poe = {}
-            for index, port in enumerate(devs.get('port_table', []), start=1):
-                poe_enabled = port.get('poe_enable', False)  # Check if 'poe_enable' is True or False in the port dict
-                port_poe[f"port{index}"] = "power" if poe_enabled else "none"
-
             port_power = {}
-            for index, port in enumerate(devs.get('port_table', []), start=1):
-                port_power[f"port{index}"] = port.get('poe_power', 0)
+
+            # can only get details about ports if the device is enabled
+            if devs.get('state') == 1:
+                # convert to dataframe, sort and access data from different columns depending upon need
+                portTable = pd.DataFrame(devs.get('port_table')).sort_values('port_idx')
+
+                for index, row in portTable.iterrows():
+                    port_status[f"port{row['port_idx']}"] = "up" if row['up'] else "down"
+
+                    if 'poe_enable' in portTable.columns:
+                        port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
+
+                    if 'poe_power' in portTable.columns:
+                        port_power[f"port{row['port_idx']}"] = row['poe_power']
 
             if devs.get('has_temperature'):
                 current_temperature = devs.get('general_temperature', 0)
@@ -105,6 +112,45 @@ for device in unifi_devices:
                 **radio_scores,                
             })
 
+        # Add additional attributes for UDM SE
+        elif device_type == 'udm':
+            # convert to dataframe, sort and access data from different columns depending upon need
+            portTable = pd.DataFrame(devs.get('port_table')).sort_values('port_idx')
+
+            port_status = {}
+            port_poe = {}
+            port_power = {}
+
+            for index, row in portTable.iterrows():
+                port_status[row['port_idx']] = "up" if row['up'] else "down"
+                port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
+                port_power[f"port{row['port_idx']}"] = row['poe_power']
+
+            attributes.update({
+                "isp_name": devs.get('active_geo_info', {})['WAN'].get('isp_name', 'Unknown'),
+                "temperature_0_name": devs.get('temperatures', {})[0].get('name', 0),
+                "temperature_0_value": devs.get('temperatures', {})[0].get('value', 0),
+                "temperature_1_name": devs.get('temperatures', {})[1].get('name', 0),
+                "temperature_1_value": devs.get('temperatures', {})[1].get('value', 0),
+                "temperature_2_name": devs.get('temperatures', {})[2].get('name', 0),
+                "temperature_2_value": devs.get('temperatures', {})[2].get('value', 0),
+                "hostname": devs.get('hostname', 'Unknown'),
+                "total_max_power": devs.get('total_max_power', 0),
+                "speedtest_rundate": devs.get('speedtest-status', {}).get('rundate', 0),
+                "speedtest_latency": devs.get('speedtest-status', {}).get('latency', 0),
+                "speedtest_download": devs.get('speedtest-status', {}).get('xput_download', 0),
+                "speedtest_upload": devs.get('speedtest-status', {}).get('xput_upload', 0),
+                "total_used_power": devs.get('total_used_power', 0),
+                "lan_ip": devs.get('lan_ip', 'Unknown'),
+                "number_of_connections": devs.get('num_sta', 0), #not ports_used but number of connections, but differs from Unifi UI connection count
+                # "ports_used": devs.get('num_sta', 0),
+                "ports_user": devs.get('user-num_sta', 0),
+                "ports_guest": devs.get('guest-num_sta', 0),
+                "active_ports": port_status,
+                "poe_ports": port_poe,
+                "poe_power": port_power,
+            })
+        
         # MQTT Discovery payload
         discovery_topic = f"homeassistant/sensor/{sanitized_name}/config"  # Use sanitized_name here
         sensor_payload = {
