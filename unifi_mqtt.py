@@ -163,14 +163,17 @@ for device in unifi_devices:
                 port_poe[f"port{row['port_idx']}"] = "power" if row['poe_enable'] else "none"
                 port_power[f"port{row['port_idx']}"] = row['poe_power']
 
+            temperatures = devs.get('temperatures', [])
+            temperature_names = {}
+            temperature_values = {}
+            for index, temp in enumerate(temperatures):
+                temperature_names[f"temperature_{index}_name"] = temp.get('name', 0)
+                temperature_values[f"temperature_{index}_value"] = temp.get('value', 0)    
+
             attributes.update({
                 "isp_name": devs.get('active_geo_info', {})['WAN'].get('isp_name', 'Unknown'),
-                "temperature_0_name": devs.get('temperatures', {})[0].get('name', 0),
-                "temperature_0_value": devs.get('temperatures', {})[0].get('value', 0),
-                "temperature_1_name": devs.get('temperatures', {})[1].get('name', 0),
-                "temperature_1_value": devs.get('temperatures', {})[1].get('value', 0),
-                "temperature_2_name": devs.get('temperatures', {})[2].get('name', 0),
-                "temperature_2_value": devs.get('temperatures', {})[2].get('value', 0),
+                **temperature_names,
+                **temperature_values,
                 "hostname": devs.get('hostname', 'Unknown'),
                 "total_max_power": devs.get('total_max_power', 0),
                 "speedtest_rundate": devs.get('speedtest-status', {}).get('rundate', 0),
