@@ -112,7 +112,7 @@ for device in unifi_devices:
                     "ssid": row['essid'],
                     "channel": row['channel'],
                     "number_connected": row['num_sta'],
-                    "satisfaction": row['satisfaction'],
+                    "satisfaction": 0 if row['satisfaction'] == -1 else row['satisfaction'],
                     "bytes_rx": row['rx_bytes'],
                     "bytes_tx": row['tx_bytes'],
                     "guest": row['is_guest']
@@ -125,7 +125,7 @@ for device in unifi_devices:
                     "ssid": row['essid'],
                     "channel": row['channel'],
                     "number_connected": row['num_sta'],
-                    "satisfaction": row['satisfaction'],
+                    "satisfaction": 0 if row['satisfaction'] == -1 else row['satisfaction'],
                     "bytes_rx": row['rx_bytes'],
                     "bytes_tx": row['tx_bytes'],
                     "guest": row['is_guest']
