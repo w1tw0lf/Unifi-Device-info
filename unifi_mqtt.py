@@ -96,9 +96,41 @@ for device in unifi_devices:
                 "current_temperature": current_temperature,
             })
 
-
         # Add additional attributes for access points
         elif device_type == 'uap':
+            vapTable = pd.DataFrame(devs.get('vap_table'))
+            # get ssid's that are on channels 1 to 13 = 2.4Ghz
+            # get ssid's that are on channels 36 to 165 = 5Ghz
+
+            ghz2_4 = vapTable[vapTable['channel'].between(0,13)].reset_index(inplace = False, drop = True)
+            ghz5 = vapTable[vapTable['channel'].between(36,165)].reset_index(inplace = False, drop = True)
+
+            radio_24ghz = {}
+
+            for index, row in ghz2_4.iterrows():
+                radio_24ghz[f"ssid{index}"] = {
+                    "ssid": row['essid'],
+                    "channel": row['channel'],
+                    "number_connected": row['num_sta'],
+                    "satisfaction": row['satisfaction'],
+                    "bytes_rx": row['rx_bytes'],
+                    "bytes_tx": row['tx_bytes'],
+                    "guest": row['is_guest']
+                }
+
+            radio_5ghz = {}
+
+            for index, row in ghz5.iterrows():
+                radio_5ghz[f"ssid{index}"] = {
+                    "ssid": row['essid'],
+                    "channel": row['channel'],
+                    "number_connected": row['num_sta'],
+                    "satisfaction": row['satisfaction'],
+                    "bytes_rx": row['rx_bytes'],
+                    "bytes_tx": row['tx_bytes'],
+                    "guest": row['is_guest']
+                }
+
             radio_table_stats = devs.get('radio_table_stats', [])
             radio_clients = {}
             radio_scores = {}
@@ -111,8 +143,10 @@ for device in unifi_devices:
                 "clients": devs.get('user-wlan-num_sta', 0),
                 "guests": devs.get('guest-wlan-num_sta', 0),
                 "score": 0 if devs.get('satisfaction', 0) == -1 else devs.get('satisfaction', 0),
-                **radio_clients, 
-                **radio_scores,                
+                **radio_clients,
+                **radio_scores,
+                "ssids_24ghz": radio_24ghz,
+                "ssids_5ghz": radio_5ghz,
             })
 
         # Add additional attributes for UDM SE
