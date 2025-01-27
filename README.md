@@ -11,6 +11,14 @@ UniFi Device Info is a Python-based integration designed to bring real-time moni
 	 - View port statuses, connected devices
   - Data usage and activity
   - POE status if support and power usage per port
+ 
+## Preview
+
+![image](https://github.com/user-attachments/assets/dc63da7e-2d53-4e0c-b28f-100a210f74f7) ![image](https://github.com/user-attachments/assets/21bae16a-2dec-47c2-b774-45905524bfcd)
+
+
+
+
 
 ## Requirements
 
