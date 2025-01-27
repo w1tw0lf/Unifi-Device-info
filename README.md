@@ -1,21 +1,24 @@
-# Unifi AP Device info
-Provide Unifi device info via api to Home Assistant that will give ap sensors
+# UniFi Device Info for Home Assistant
+UniFi Device Info is a Python-based integration designed to bring real-time monitoring of UniFi network devices into Home Assistant. This tool connects to the UniFi Controller's API to provide comprehensive insights into your network's Access Points (APs) and Switches, providing sensor per device with attributes for various device info.
+## Features
+- Access Point Monitoring:
+  - Live data on connected clients
+  - Signal strength for AP per radio
+  - Signal strength for AP per SSID
+  - Uptime for device
+  - Data usage and activity
+- Switch Monitoring:
+	 - View port statuses, connected devices
+  - Data usage and activity
+  - POE status if support and power usage per port
 
-Thanks to `valvex`, https://community.home-assistant.io/t/monitoring-your-unifi-ap/259703 for giving the base for this.
+## Requirements
 
-To get started download, you must have https://github.com/AlexxIT/PythonScriptsPro added via HACS
+PythonScriptsPro
+	- https://github.com/AlexxIT/PythonScriptsPro added via HACS 
 
-Made to work with newer UnifiOS
-
-Will give you a card as below:
-
-![ap](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/card_ap.png)
-![switch](https://github.com/w1tw0lf/Unifi-AP-Device-info/blob/main/images/card_switch.png)
-
-## Scripts
-
+## Installation
 Create a folder `python_scripts` in your `config` folder and copy the `unifi_mqtt.py`into the folder. Edit with details in the section with your details:
-
 ```
  - `host`       -- the address of the controller host; IP or name
  - `username`   -- the username to log in with
@@ -25,7 +28,6 @@ Create a folder `python_scripts` in your `config` folder and copy the `unifi_mqt
  - `port`       -- the port of the controller host
  - `verify_ssl`	-- Verify the controllers SSL certificate, default=True, can also be False or "path/to/custom_cert.pem"
 ```
-
 In the configuration.yaml add
 
 ```
