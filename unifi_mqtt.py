@@ -99,11 +99,13 @@ for device in unifi_devices:
         # Add additional attributes for access points
         elif device_type == 'uap':
             vapTable = pd.DataFrame(devs.get('vap_table'))
-            # get ssid's that are on channels 1 to 13 = 2.4Ghz
-            # get ssid's that are on channels 36 to 165 = 5Ghz
+            # get ssid's that are radio variable 'ng' = 2.4Ghz
+            # get ssid's that are radio variable 'na' = 5Ghz
+            # get ssid's that are radio variable '6e' = 6Ghz
 
-            ghz2_4 = vapTable[vapTable['channel'].between(0,13)].reset_index(inplace = False, drop = True)
-            ghz5 = vapTable[vapTable['channel'].between(36,165)].reset_index(inplace = False, drop = True)
+            ghz2_4 = vapTable[(vapTable['radio'] == 'ng')]
+            ghz5 = vapTable[(vapTable['radio'] == 'na')]
+            ghz6 = vapTable[(vapTable['radio'] == '6e')]
 
             radio_24ghz = {}
 
@@ -131,6 +133,19 @@ for device in unifi_devices:
                     "guest": row['is_guest']
                 }
 
+            radio_6ghz = {}
+
+            for index, row in ghz6.iterrows():
+                radio_6ghz[f"ssid{index}"] = {
+                    "ssid": row['essid'],
+                    "channel": row['channel'],
+                    "number_connected": row['num_sta'],
+                    "satisfaction": 0 if row['satisfaction'] == -1 else row['satisfaction'],
+                    "bytes_rx": row['rx_bytes'],
+                    "bytes_tx": row['tx_bytes'],
+                    "guest": row['is_guest']
+                }
+
             radio_table_stats = devs.get('radio_table_stats', [])
             radio_clients = {}
             radio_scores = {}
@@ -147,6 +162,7 @@ for device in unifi_devices:
                 **radio_scores,
                 "ssids_24ghz": radio_24ghz,
                 "ssids_5ghz": radio_5ghz,
+                "ssids_6ghz": radio_6ghz,
             })
 
         # Add additional attributes for UDM SE
