@@ -1,6 +1,6 @@
 {
   "domain": "unifi_mqtt",
-  "name": "UniFi MQTT Integration",
+  "name": "UniFi Device Info Integration",
   "version": "1.0.0",
   "documentation": "https://github.com/w1tw0lf/Unifi-Device-info",
   "dependencies": [
