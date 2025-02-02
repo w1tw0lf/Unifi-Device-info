@@ -11,7 +11,8 @@
     "pandas"
   ],
   "codeowners": [
-    "@w1tw0lf"
+    "@w1tw0lf",
+    "@ingoldsby"
   ],
   "config_flow": true
 }
