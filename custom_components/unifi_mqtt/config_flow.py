@@ -1,4 +1,4 @@
-"""Config flow for UniFi MQTT Test integration."""
+"""Config flow for UniFi Device Info integration."""
 import logging
 import voluptuous as vol
 
