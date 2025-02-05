@@ -14,11 +14,13 @@ from .const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
     CONF_VERSION,
+    CONF_UPDATE_INTERVAL,
     VERSION_OPTIONS,
     DEFAULT_SITE_ID,
     DEFAULT_PORT,
     DEFAULT_VERIFY_SSL,
     DEFAULT_VERSION,
+    DEFAULT_UPDATE_INTERVAL
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,10 +33,11 @@ DATA_SCHEMA = vol.Schema({
     vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
     vol.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): cv.boolean,
     vol.Optional(CONF_VERSION, default=DEFAULT_VERSION): vol.In(VERSION_OPTIONS),
+    vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): cv.positive_int,
 })
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for UniFi MQTT integration."""
+    """Handle a config flow for UniFi Device Info integration."""
 
     VERSION = 1
 
