@@ -32,7 +32,8 @@ from .const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
     CONF_VERSION,
-    UPDATE_INTERVAL,
+    CONF_UPDATE_INTERVAL,
+    DEFAULT_UPDATE_INTERVAL
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -49,6 +50,7 @@ async def async_setup_entry(hass, entry):
     port = entry.data[CONF_PORT]
     verify_ssl = entry.data[CONF_VERIFY_SSL]
     version = entry.data[CONF_VERSION]
+    update_interval = entry.data.get(CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL)
 
     def init_controller():
         return Controller(
@@ -72,6 +74,11 @@ async def async_setup_entry(hass, entry):
         active_devices = []
 
         for device in unifi_devices:
+            # If the device is not a dictionary, log its value and skip processing it.
+            if not isinstance(device, dict):
+                _LOGGER.error("Received device that is not a dictionary: %s", device)
+                continue
+                
             if not device.get("adopted"):
                 continue
 
@@ -282,7 +289,7 @@ async def async_setup_entry(hass, entry):
 
     global UPDATE_LISTENER
     UPDATE_LISTENER = async_track_time_interval(
-        hass, update_unifi_data, timedelta(seconds=UPDATE_INTERVAL)
+        hass, update_unifi_data, timedelta(seconds=update_interval)
     )
     hass.async_create_task(update_unifi_data(None))
 
