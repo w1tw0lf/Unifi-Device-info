@@ -84,6 +84,10 @@ For example, if both are "UAP NanoHD", the friendly name becomes "UAP NanoHD UAP
 There is currently no discovery parameter to disable this behavior.
 To have the friendly name display exactly as "UAP NanoHD", you must manually override the entity’s friendly name in the Home Assistant entity registry after discovery.
 
+## Lovelace card examples
+
+Examples of possible card ideas can be found [here](https://github.com/w1tw0lf/Unifi-Device-info-display).
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests to improve this integration.
