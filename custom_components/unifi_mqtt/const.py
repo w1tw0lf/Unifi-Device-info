@@ -9,6 +9,7 @@ CONF_SITE_ID = "site_id"
 CONF_PORT = "port"
 CONF_VERIFY_SSL = "Verify SSL"
 CONF_VERSION = "version"
+CONF_UPDATE_INTERVAL = "Update interval"
 
 VERSION_OPTIONS = [
     "UDMP-unifiOS",  # default
@@ -22,4 +23,4 @@ DEFAULT_PORT = 443
 DEFAULT_VERIFY_SSL = False
 DEFAULT_VERSION = "UDMP-unifiOS"
 
-UPDATE_INTERVAL = 60  # seconds
+DEFAULT_UPDATE_INTERVAL = 60  # seconds

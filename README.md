@@ -1,9 +1,9 @@
-# UniFi MQTT Integration
+# UniFi Device Info Integration
 
 [![HACS Badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://hacs.xyz/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-The **UniFi MQTT Integration** is a custom Home Assistant integration that polls your UniFi controller every 60 seconds for device statistics and publishes the data via MQTT. The integration creates MQTT discovery messages so that sensors are automatically set up in Home Assistant.
+The **UniFi Device Info Integration** is a custom Home Assistant integration that polls your UniFi controller, by default, every 60 seconds for device statistics and publishes the data via MQTT. The integration creates MQTT discovery messages so that sensors are automatically set up in Home Assistant.
 
 ## Features
 
@@ -21,6 +21,7 @@ The **UniFi MQTT Integration** is a custom Home Assistant integration that polls
 	 - View port statuses, connected devices
   - Data usage and activity
   - POE status if support and power usage per port
+- Select own updating interval (default is 60 seconds)
 
 ## Installation
 
@@ -55,6 +56,7 @@ After installation, configure the integration via the Home Assistant UI:
    - **Port:** Controller port (default is 443).
    - **Verify SSL:** `true` or `false` (depending on your setup).
    - **Version:** Controller version (default is `UDMP-unifiOS`).
+   - **Update interval:** How long, in seconds, before refreshing information (default is 60 seconds).
 4. Click **Submit** to create the configuration entry.
 
 ## How It Works
