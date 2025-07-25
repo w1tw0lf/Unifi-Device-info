@@ -153,7 +153,12 @@ async def async_setup_entry(hass, entry):
 
             # Add additional attributes for access points
             elif device_type == "uap":
-                vap_table = pd.DataFrame(devs.get("vap_table"))
+                vap_table_data = devs.get("vap_table")
+                if not vap_table_data:
+                    continue
+                vap_table = pd.DataFrame(vap_table_data)
+                if "radio" not in vap_table.columns:
+                    continue
                 ghz2_4 = vap_table[vap_table["radio"] == "ng"]
                 ghz5 = vap_table[vap_table["radio"] == "na"]
                 ghz6 = vap_table[vap_table["radio"] == "6e"]
