@@ -1,7 +1,3 @@
 {
-  "name": "Unifi Device info",
-  "render_readme": true,
-  "zip_release": true,
-  "filename": "Source code.zip",
-  "content_in_root": false
+  "name": "Unifi Device info"
 }
