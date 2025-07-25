@@ -18,7 +18,7 @@ The **UniFi Device Info Integration** is a custom Home Assistant integration tha
   - Uptime for device
   - Data usage and activity
 - Switch Monitoring:
-	 - View port statuses, connected devices
+  - View port statuses, connected devices
   - Data usage and activity
   - POE status if support and power usage per port
 - Select own updating interval (default is 60 seconds)
@@ -37,6 +37,7 @@ There are two main ways to install the integration:
 ### 2. HACS Installation
 
 If you use [HACS](https://hacs.xyz/):
+
 1. Go to **HACS > Integrations**.
 2. Click on the three-dot menu in the top right corner and select **Custom repositories**.
 3. Enter the URL of this GitHub repository, choose **Integration** as the category, and click **Add**.
