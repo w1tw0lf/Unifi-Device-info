@@ -263,7 +263,7 @@ async def async_setup_entry(hass, entry):
             discovery_topic = f"homeassistant/sensor/unifi_mqtt/{sanitized_name}/config"
             sensor_payload = {
                 "name": name,
-                "object_id": sanitized_name,
+                "default_entity_id": sanitized_name,
                 "state_topic": f"unifi_mqtt/devices/{sanitized_name}/state",
                 "unique_id": mac.replace(":", ""),
                 "json_attributes_topic": f"unifi_mqtt/devices/{sanitized_name}/attributes",
