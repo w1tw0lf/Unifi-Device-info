@@ -15,6 +15,7 @@ the entity’s friendly name in the Home Assistant entity registry after discove
 import asyncio
 import json
 import logging
+import re
 from datetime import timedelta
 
 import pandas as pd
@@ -40,6 +41,10 @@ _LOGGER = logging.getLogger(__name__)
 
 # Global variable for the update listener.
 UPDATE_LISTENER = None
+
+def sanitize_name(name):
+    """Sanitizes a string by replacing characters not in [a-zA-Z0-9_-] with '_'."""
+    return re.sub(r'[^a-zA-Z0-9_-]', '_', name)
 
 async def async_setup_entry(hass, entry):
     """Set up the UniFi MQTT integration from a config entry."""
@@ -93,8 +98,8 @@ async def async_setup_entry(hass, entry):
             device_type = devs.get("type", "Unknown")
             uptime_seconds = devs.get("uptime", 0)
 
-            # Sanitize the device name to avoid redundancy
-            sanitized_name = name.replace(" ", "_").replace(".", "_").lower()
+            # Sanitize the device name for use in MQTT topics
+            sanitized_name = sanitize_name(name)
 
             # Calculate uptime
             days = uptime_seconds // 86400
