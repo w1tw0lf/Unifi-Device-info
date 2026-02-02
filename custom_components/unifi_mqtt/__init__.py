@@ -138,7 +138,7 @@ async def async_setup_entry(hass, entry):
                     for index, row in port_table.iterrows():
                         port_status[f"port{row['port_idx']}"] = "up" if row["up"] else "down"
                         if "poe_enable" in port_table.columns:
-                            port_poe[f"port{row['port_idx']}"] = "power" if row["poe_enable"] else "none"
+                            port_poe[f"port{row['port_idx']}"] = "power" if row["port_poe"] else "none"
                         if "poe_power" in port_table.columns:
                             port_power[f"port{row['port_idx']}"] = 0 if pd.isna(row["poe_power"]) else row["poe_power"]
 
